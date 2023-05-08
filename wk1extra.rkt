@@ -66,15 +66,15 @@
 (define (pack n s)
   (letrec ([proc s]
            [f (lambda ()
-                (let ([l (g n)])
+                (let ([l (g n proc)])
                   (cons l (lambda () (f)))))]
-           [g (lambda (i)
-                (let ([pr (proc)])
+           [g (lambda (i x)
+                (let ([pr (x)])
                   (if (= i 1)
                       (begin
                         (set! proc (cdr pr))
                         (cons (car pr) null))
-                      (cons (car pr) (g (- i 1))))))])
+                      (cons (car pr) (g (- i 1) (cdr pr))))))])
     (lambda () (f))))                 
 
 
